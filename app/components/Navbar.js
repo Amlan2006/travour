@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link';
 import React from 'react'
 import { useState } from 'react';
 
@@ -33,13 +34,15 @@ const Navbar = () => {
             <nav
               className={`${
                 menuOpen ? 'block' : 'hidden'
-              } absolute top-16 left-0 w-full bg-red-600 md:relative md:top-auto md:left-auto md:bg-transparent md:flex`}
+              } absolute top-16 left-0 w-full bg-red-600 flex justify-around md:relative md:top-auto md:left-auto md:bg-transparent md:flex`}
             >
               <ul className="md:flex md:space-x-4">
                 <li className="text-center py-2 md:py-0">
-                  <a href="#features" className="block px-4 hover:underline">
-                    Features
-                  </a>
+                  <Link href='/'>
+                  Home
+                  </Link>
+                    
+                  
                 </li>
                 <li className="text-center py-2 md:py-0">
                   <a href="#about" className="block px-4 hover:underline">

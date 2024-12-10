@@ -1,12 +1,27 @@
 'use client'
-import { useState} from 'react';
+import { useState,useEffect} from 'react';
 // import { useRouter } from 'next/router';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
 import { app } from '@/firebase';
 // import { useNavigate } from 'react-router-dom';
 
 const auth = getAuth(app);
 export default function Signup() {
+    const [user,setUser] = useState(null)
+
+    useEffect(()=>{
+        onAuthStateChanged(auth,(user)=>{
+          if(user){
+            // console.log("hello",user)
+            setUser(user)
+          }
+          
+          else{
+            // console.log("You are logged out")
+            setUser(null)
+          }
+        })
+      },[])
 // const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
@@ -49,6 +64,15 @@ createUserWithEmailAndPassword(auth, formData.email, formData.password)
     // Redirect to home or another page on successful signup
     // router.push('/');
   };
+if(user != null){
+    return(
+        <>
+        <div className='text-center text-white bg-red-500 h-screen'>
+            <p>You Are Welcome</p>
+        </div>
+        </>
+    )
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-6 bg-red-400">
