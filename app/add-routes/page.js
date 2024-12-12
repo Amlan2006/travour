@@ -60,8 +60,8 @@ export default function AddRoutes() {
     try {
       // Add the route to Firestore
       await addDoc(collection(firestore,'routes'),{
-        from: formData.from.toLowerCase(),
-        to: formData.to.toLowerCase(),
+        from: formData.from.toLowerCase().trim(),
+        to: formData.to.toLowerCase().trim(),
         routeDescription: formData.routeDescription,
         likes: 0, // Initialize likes to 0
         username: user.email,

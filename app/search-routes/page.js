@@ -73,8 +73,8 @@ export default function SearchRoutes() {
       const routesRef = collection(firestore, 'routes');
       const q = query(
         routesRef,
-        where('from', '==', searchFrom),
-        where('to', '==', searchTo)
+        where('from', '==', searchFrom.toLowerCase()),
+        where('to', '==', searchTo.toLowerCase())
       );
       const querySnapshot = await getDocs(q);
 
