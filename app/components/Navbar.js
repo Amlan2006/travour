@@ -45,14 +45,10 @@ const Navbar = () => {
                   
                 </li>
                 <li className="text-center py-2 md:py-0">
-                  <a href="#about" className="block px-4 hover:underline">
-                    About
-                  </a>
+                  <Link href='/search-routes' className="block px-4 hover:underline">Routes</Link>
                 </li>
                 <li className="text-center py-2 md:py-0">
-                  <a href="#contact" className="block px-4 hover:underline">
-                    Contact
-                  </a>
+                  <Link href='/add-routes'>Add Routes</Link>
                 </li>
               </ul>
             </nav>

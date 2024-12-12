@@ -2,12 +2,17 @@
 import { app } from '@/firebase';
 import { getAuth ,onAuthStateChanged} from 'firebase/auth';
 import { getFirestore,addDoc,collection } from 'firebase/firestore';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import { firestore } from '../firebase';
 const firestore = getFirestore(app)
 const auth = getAuth(app)
 export default function AddRoutes() {
     const [user,setUser] = useState(null)
+    // const navigate = useNavigate()
+    // const router = useRouter()
     useEffect(()=>{
         onAuthStateChanged(auth,(user)=>{
           if(user){
@@ -55,7 +60,9 @@ export default function AddRoutes() {
     try {
       // Add the route to Firestore
       await addDoc(collection(firestore,'routes'),{
-        ...formData,
+        from: formData.from.toLowerCase(),
+        to: formData.to.toLowerCase(),
+        routeDescription: formData.routeDescription,
         likes: 0, // Initialize likes to 0
         username: user.email,
         // createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -69,6 +76,15 @@ export default function AddRoutes() {
       setError('Error adding route. Please try again.');
     }
   };
+if(user == null){
+  return(
+    <>
+    <div>
+      <p>You Have To <Link href='/login' className='text-red-700'>Login </Link> First</p>
+    </div>
+    </>
+  )
+}
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-6">
@@ -136,7 +152,7 @@ export default function AddRoutes() {
               name="routeDescription"
               value={formData.routeDescription}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-md text-black"
               placeholder="Describe the route and helpful details"
               rows="6"
               required

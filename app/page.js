@@ -1,11 +1,28 @@
 'use client'
+import { app } from '@/firebase';
+import { getAuth,onAuthStateChanged } from 'firebase/auth';
 import Head from 'next/head';
-import { useState } from 'react';
+import Link from 'next/link';
+import { useState ,useEffect} from 'react';
 // import Map from './components/Map';
 // import ''
-
+const auth = getAuth(app)
 
 export default function Home() {
+  const [user,setUser] = useState(null)
+  useEffect(()=>{
+    onAuthStateChanged(auth,(user)=>{
+      if(user){
+        // console.log("hello",user)
+        setUser(user)
+      }
+      
+      else{
+        // console.log("You are logged out")
+        setUser(null)
+      }
+    })
+  },[])
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -30,7 +47,8 @@ export default function Home() {
               Discover the shortest and most efficient routes to your destination, based on real suggestions from fellow travelers.
             </p>
             <button className="bg-white text-red-600 px-6 py-3 rounded-lg shadow-lg font-medium hover:bg-red-100 transition">
-              Get Started
+              <Link href='/signup'>{user ? <><Link href='/search-routes'>Go To Routes</Link></>:"Get Started"}</Link>
+              
             </button>
           </div>
         </section>
@@ -66,7 +84,7 @@ export default function Home() {
               Sign up for Travour today and explore efficient routes like never before!
             </p>
             <button className="bg-white text-red-600 px-6 py-3 rounded-lg shadow-lg font-medium hover:bg-red-100 transition">
-              Join Now
+              <Link href='/signup'>Join Now</Link>
             </button>
           </div>
         </section>

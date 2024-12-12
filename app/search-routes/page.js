@@ -139,7 +139,7 @@ export default function SearchRoutes() {
               className="flex-grow p-3 border border-gray-300 rounded-md"
             />
             {fromSuggestions.length > 0 && (
-              <ul className="absolute bg-white border border-gray-300 rounded-md w-full mt-1 max-h-40 overflow-y-auto text-red-700">
+              <ul className="absolute bg-white border border-gray-300 rounded-md w-full mt-1 max-h-40 overflow-y-auto text-red-700 z-10">
                 {fromSuggestions.map((suggestion, index) => (
                   <li
                     key={index}
