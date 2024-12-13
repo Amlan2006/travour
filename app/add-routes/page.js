@@ -6,10 +6,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Login from '../login/page';
 // import { firestore } from '../firebase';
 const firestore = getFirestore(app)
 const auth = getAuth(app)
 export default function AddRoutes() {
+  // const router = useRouter()
     const [user,setUser] = useState(null)
     // const navigate = useNavigate()
     // const router = useRouter()
@@ -79,9 +81,7 @@ export default function AddRoutes() {
 if(user == null){
   return(
     <>
-    <div>
-      <p>You Have To <Link href='/login' className='text-red-700'>Login </Link> First</p>
-    </div>
+    <Login/>
     </>
   )
 }
