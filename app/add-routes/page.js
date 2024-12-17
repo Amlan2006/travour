@@ -1,173 +1,125 @@
 'use client'
-import { app } from '@/firebase';
-import { getAuth ,onAuthStateChanged} from 'firebase/auth';
-import { getFirestore,addDoc,collection } from 'firebase/firestore';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState,useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Login from '../login/page';
+import { useState, useEffect } from 'react';
 // import { firestore } from '../firebase';
+import { collection, addDoc, getDocs, getFirestore } from 'firebase/firestore';
+import { app } from '@/firebase';
 const firestore = getFirestore(app)
-const auth = getAuth(app)
 export default function AddRoutes() {
-  // const router = useRouter()
-    const [user,setUser] = useState(null)
-    // const navigate = useNavigate()
-    // const router = useRouter()
-    useEffect(()=>{
-        onAuthStateChanged(auth,(user)=>{
-          if(user){
-            // console.log("hello",user)
-            setUser(user)
-          }
-          
-          else{
-            // console.log("You are logged out")
-            setUser(null)
-          }
-        })
-      },[])
-  const [formData, setFormData] = useState({
-    from: '',
-    to: '',
-    routeDescription: '',
-  });
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [routeDescription, setRouteDescription] = useState('');
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [error, setError] = useState('');
+  const [suggestionsFrom, setSuggestionsFrom] = useState([]);
+  const [suggestionsTo, setSuggestionsTo] = useState([]);
 
-  // Handle form input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  // Fetch Suggestions
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      try {
+        const routesRef = collection(firestore, 'routes');
+        const querySnapshot = await getDocs(routesRef);
+        const allRoutes = querySnapshot.docs.map((doc) => doc.data());
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+        const uniqueFrom = [...new Set(allRoutes.map((route) => route.from))];
+        const uniqueTo = [...new Set(allRoutes.map((route) => route.to))];
 
-    if (!formData.from || !formData.to || !formData.routeDescription) {
-      setError('Please fill out all fields.');
+        setSuggestionsFrom(uniqueFrom);
+        setSuggestionsTo(uniqueTo);
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+      }
+    };
+
+    fetchSuggestions();
+  }, []);
+
+  const handleAddRoute = async () => {
+    if (!from || !to || !routeDescription) {
+      alert('Please fill in all fields.');
       return;
     }
 
     setLoading(true);
-    setError('');
-    setSuccessMessage('');
 
     try {
-      // Add the route to Firestore
-      await addDoc(collection(firestore,'routes'),{
-        from: formData.from.toLowerCase().trim(),
-        to: formData.to.toLowerCase().trim(),
-        routeDescription: formData.routeDescription,
-        likes: 0, // Initialize likes to 0
-        username: user.email,
-        // createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      const routesRef = collection(firestore, 'routes');
+      await addDoc(routesRef, {
+        from,
+        to,
+        routeDescription,
+        likes: 0,
       });
+      alert('Route added successfully!');
+      setFrom('');
+      setTo('');
+      setRouteDescription('');
+    } catch (error) {
+      console.error('Error adding route:', error);
+    } finally {
       setLoading(false);
-      setSuccessMessage('Route added successfully!');
-      setFormData({ from: '', to: '', routeDescription: '' });
-    } catch (err) {
-      console.error(err);
-      setLoading(false);
-      setError('Error adding route. Please try again.');
     }
   };
-if(user == null){
-  return(
-    <>
-    <Login/>
-    </>
-  )
-}
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-6">
-      <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
+    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
           Add a New Route
         </h2>
 
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        {successMessage && (
-          <p className="text-green-500 text-center mb-4">{successMessage}</p>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          {/* From Location */}
-          <div className="mb-4">
-            <label
-              htmlFor="from"
-              className="block text-sm font-semibold text-gray-700"
-            >
-              From
-            </label>
+        {/* Input Fields */}
+        <div className="space-y-4">
+          <div>
             <input
               type="text"
-              id="from"
-              name="from"
-              value={formData.from}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md"
-              placeholder="Enter starting point"
-              required
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+              placeholder="From..."
+              list="from-suggestions"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
             />
+            <datalist id="from-suggestions">
+              {suggestionsFrom.map((suggestion, index) => (
+                <option key={index} value={suggestion} />
+              ))}
+            </datalist>
           </div>
-
-          {/* To Location */}
-          <div className="mb-4">
-            <label
-              htmlFor="to"
-              className="block text-sm font-semibold text-gray-700"
-            >
-              To
-            </label>
+          <div>
             <input
               type="text"
-              id="to"
-              name="to"
-              value={formData.to}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md"
-              placeholder="Enter destination"
-              required
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+              placeholder="To..."
+              list="to-suggestions"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
             />
+            <datalist id="to-suggestions">
+              {suggestionsTo.map((suggestion, index) => (
+                <option key={index} value={suggestion} />
+              ))}
+            </datalist>
           </div>
+          <textarea
+            value={routeDescription}
+            onChange={(e) => setRouteDescription(e.target.value)}
+            placeholder="Describe the route..."
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+            rows="4"
+          ></textarea>
+        </div>
 
-          {/* Route Description */}
-          <div className="mb-6">
-            <label
-              htmlFor="routeDescription"
-              className="block text-sm font-semibold text-gray-700"
-            >
-              Route Description
-            </label>
-            <textarea
-              id="routeDescription"
-              name="routeDescription"
-              value={formData.routeDescription}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md text-black"
-              placeholder="Describe the route and helpful details"
-              rows="6"
-              required
-            ></textarea>
-          </div>
-
-          {/* Submit Button */}
+        {/* Add Route Button */}
+        <div className="mt-6">
           <button
-            type="submit"
+            onClick={handleAddRoute}
             disabled={loading}
-            className="w-full bg-red-600 text-white p-3 rounded-md hover:bg-red-700 focus:outline-none"
+            className={`w-full bg-red-600 text-white px-4 py-3 rounded-md hover:bg-red-700 transition duration-200 ${
+              loading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
             {loading ? 'Adding...' : 'Add Route'}
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );

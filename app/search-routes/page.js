@@ -119,7 +119,7 @@ export default function SearchRoutes() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-6">
+    <div className="min-h-screen bg-gray-100 py-12 px-6">
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
           Search for Routes
@@ -132,8 +132,8 @@ export default function SearchRoutes() {
               type="text"
               value={searchFrom}
               onChange={(e) => {
-                setSearchFrom(e.target.value);
-                fetchFromSuggestions(e.target.value);
+                setSearchFrom(e.target.value.toLowerCase());
+                fetchFromSuggestions(e.target.value.toLowerCase());
               }}
               placeholder="From..."
               className="flex-grow p-3 border border-gray-300 rounded-md"
@@ -160,8 +160,8 @@ export default function SearchRoutes() {
               type="text"
               value={searchTo}
               onChange={(e) => {
-                setSearchTo(e.target.value);
-                fetchToSuggestions(e.target.value);
+                setSearchTo(e.target.value.toLowerCase());
+                fetchToSuggestions(e.target.value.toLowerCase());
               }}
               placeholder="To..."
               className="flex-grow p-3 border border-gray-300 rounded-md"
@@ -219,7 +219,7 @@ export default function SearchRoutes() {
               </div>
 
               {/* Add Suggestion */}
-              <div className="mt-4 flex items-center space-x-4">
+              <div className="mt-4 flex items-center space-x-4 ">
                 <input
                   type="text"
                   value={suggestion}
