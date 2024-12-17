@@ -1,8 +1,9 @@
 'use client'
-import { useState} from 'react';
+import { useEffect, useState} from 'react';
 // import { firestore } from '../firebase';
 import { collection, query, where, startAt, endAt, getDocs, updateDoc, arrayUnion, doc, orderBy, getFirestore } from 'firebase/firestore';
 import { app } from '@/firebase';
+// import { onAuthStateChanged } from 'firebase/auth';
 const firestore = getFirestore(app)
 export default function SearchRoutes() {
   const [searchFrom, setSearchFrom] = useState('');
@@ -13,7 +14,6 @@ export default function SearchRoutes() {
   const [suggestion, setSuggestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-
   // Fetch Suggestions for "From"
   const fetchFromSuggestions = async (input) => {
     if (!input.trim()) {

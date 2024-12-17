@@ -3,7 +3,10 @@ import { useState, useEffect } from 'react';
 // import { firestore } from '../firebase';
 import { collection, addDoc, getDocs, getFirestore } from 'firebase/firestore';
 import { app } from '@/firebase';
+import { getAuth,onAuthStateChanged } from 'firebase/auth';
+import Login from '../login/page';
 const firestore = getFirestore(app)
+const auth = getAuth(app)
 export default function AddRoutes() {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
@@ -11,9 +14,21 @@ export default function AddRoutes() {
   const [loading, setLoading] = useState(false);
   const [suggestionsFrom, setSuggestionsFrom] = useState([]);
   const [suggestionsTo, setSuggestionsTo] = useState([]);
+  const [user,setUser] = useState(null)
 
   // Fetch Suggestions
   useEffect(() => {
+    onAuthStateChanged(auth,(user)=>{
+          if(user){
+            // console.log("hello",user)
+            setUser(user)
+          }
+          
+          else{
+            // console.log("You are logged out")
+            setUser(null)
+          }
+        })
     const fetchSuggestions = async () => {
       try {
         const routesRef = collection(firestore, 'routes');
@@ -59,7 +74,13 @@ export default function AddRoutes() {
       setLoading(false);
     }
   };
-
+if(user == null){
+  return(
+    <>
+    <Login/>
+    </>
+  )
+}
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-lg shadow-lg">
