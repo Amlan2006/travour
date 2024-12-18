@@ -1,6 +1,7 @@
 'use client'
 import { app } from '@/firebase';
 import { getFirestore,collection,getDocs } from 'firebase/firestore';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 // import { firestore } from '../firebase';
 
@@ -56,6 +57,7 @@ export default function Posts() {
         <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
           Recent Travel Stories
         </h2>
+        <Link href='/add-post'><button className='bg-red-700 text-white rounded-md w-full py-4 my-4'>Add Your Stories</button></Link>
 
         {/* Search Bar */}
         <div className="mb-6">

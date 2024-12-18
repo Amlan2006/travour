@@ -6,6 +6,7 @@ import { addDoc, collection, getFirestore } from 'firebase/firestore';
 import { app } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import { getAuth,onAuthStateChanged } from 'firebase/auth';
+import Login from '../login/page';
 const firestore = getFirestore(app)
 const auth = getAuth(app)
 
@@ -71,7 +72,13 @@ export default function PostStory() {
       setError('Error submitting your story. Please try again.');
     }
   };
-
+if(user == null){
+  return(
+    <>
+    <Login/>
+    </>
+  )
+}
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-6">
       <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">

@@ -50,6 +50,9 @@ const Navbar = () => {
                 <li className="text-center py-2 md:py-0">
                   <Link href='/add-routes'>Add Routes</Link>
                 </li>
+                <li className="text-center py-2 md:py-0">
+                  <Link href='/show-post'>Stories</Link>
+                </li>
               </ul>
             </nav>
           </div>

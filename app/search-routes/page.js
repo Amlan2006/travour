@@ -119,7 +119,7 @@ export default function SearchRoutes() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-6">
+    <div className="min-h-screen bg-gray-100 py-20 px-6 ">
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
           Search for Routes
