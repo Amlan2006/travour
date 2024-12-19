@@ -7,8 +7,8 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="bg-red-600 text-white py-4 px-6">
-          <div className="container mx-auto flex justify-between items-center">
+    <header className="bg-gradient-to-r from-red-950 to-black text-white py-4 px-6">
+          <div className="container mx-auto flex justify-between items-center ">
             <h1 className="text-xl font-bold">Travour</h1>
             <button
               className="text-white md:hidden focus:outline-none"
@@ -34,23 +34,23 @@ const Navbar = () => {
             <nav
               className={`${
                 menuOpen ? 'block' : 'hidden'
-              } absolute top-16 left-0 w-full bg-red-600 flex justify-around md:relative md:top-auto md:left-auto md:bg-transparent md:flex`}
+              } absolute top-16 left-0 transition-all bg-black w-full rounded-md flex justify-around md:relative md:top-auto md:left-auto md:bg-transparent md:flex`}
             >
-              <ul className="md:flex md:space-x-4">
-                <li className="text-center py-2 md:py-0">
+              <ul className="md:flex md:space-x-4 text-center">
+                <li className="text-center py-2 md:py-0 hover:bg-red-600 w-16 h-10 flex items-center justify-center rounded-md">
                   <Link href='/'>
                   Home
                   </Link>
                     
                   
                 </li>
-                <li className="text-center py-2 md:py-0">
-                  <Link href='/search-routes' className="block px-4 hover:underline">Routes</Link>
+                <li className="text-center py-2 md:py-0 hover:bg-red-600 w-16 h-10 flex items-center justify-center rounded-md">
+                  <Link href='/search-routes' className="block px-4">Routes</Link>
                 </li>
-                <li className="text-center py-2 md:py-0">
+                <li className="text-center py-2 md:py-0 hover:bg-red-600 w-28 h-10 flex items-center justify-center rounded-md">
                   <Link href='/add-routes'>Add Routes</Link>
                 </li>
-                <li className="text-center py-2 md:py-0">
+                <li className="text-center py-2 md:py-0 hover:bg-red-600 w-16 h-10 flex items-center justify-center rounded-md">
                   <Link href='/show-post'>Stories</Link>
                 </li>
               </ul>

@@ -67,7 +67,7 @@ createUserWithEmailAndPassword(auth, formData.email, formData.password)
 if(user != null){
     return(
         <>
-        <div className='text-center text-white bg-red-500 h-screen'>
+        <div className='text-center text-white bg-gradient-to-r from-red-950 to-black h-screen'>
             <p>You Are Welcome</p>
         </div>
         </>
@@ -75,7 +75,7 @@ if(user != null){
 }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-6 bg-red-400">
+    <div className="min-h-screen flex items-center justify-center py-12 px-6 bg-gradient-to-r from-red-950 to-black">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-red-600 mb-6">Travour Signup</h2>
         

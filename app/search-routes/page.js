@@ -119,8 +119,8 @@ export default function SearchRoutes() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-20 px-6 ">
-      <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+    <div className="min-h-screen py-20 px-6 bg-gradient-to-r from-red-950 to-black">
+      <div className="max-w-4xl mx-auto p-8 rounded-lg shadow-lg bg-transparent shadow-gray-500">
         <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
           Search for Routes
         </h2>
@@ -136,7 +136,7 @@ export default function SearchRoutes() {
                 fetchFromSuggestions(e.target.value.toLowerCase());
               }}
               placeholder="From..."
-              className="flex-grow p-3 border border-gray-300 rounded-md"
+              className="flex-grow p-3 border shadow-sm shadow-gray-500 rounded-md"
             />
             {fromSuggestions.length > 0 && (
               <ul className="absolute bg-white border border-gray-300 rounded-md w-full mt-1 max-h-40 overflow-y-auto text-red-700 z-10">
@@ -200,11 +200,11 @@ export default function SearchRoutes() {
         )}
         <div className="space-y-6">
           {searchResults.map((route) => (
-            <div key={route.id} className="border p-6 rounded-lg shadow-sm">
+            <div key={route.id} className="p-6 rounded-lg shadow-sm shadow-gray-500">
               <h3 className="text-xl font-semibold text-red-600">
                 {route.from} → {route.to}
               </h3>
-              <p className="mt-2 text-gray-700">{route.routeDescription}</p>
+              <p className="mt-2 text-white">{route.routeDescription}</p>
 
               {/* Suggestions */}
               <div className="mt-4">

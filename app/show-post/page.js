@@ -52,9 +52,9 @@ export default function Posts() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-6">
-      <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
+    <div className="min-h-screen bg-gray-100 py-8 px-6 bg-gradient-to-r from-red-950 to-black">
+      <div className="max-w-4xl mx-auto bg-transparent p-8 rounded-lg shadow-lg">
+        <h2 className="text-4xl font-bold text-center text-red-600 mb-6">
           Recent Travel Stories
         </h2>
         <Link href='/add-post'><button className='bg-red-700 text-white rounded-md w-full py-4 my-4'>Add Your Stories</button></Link>
@@ -79,10 +79,10 @@ export default function Posts() {
         )}
         <div className="space-y-6">
           {filteredPosts.map((post) => (
-            <div key={post.id} className="border p-6 rounded-lg shadow-sm">
+            <div key={post.id} className=" shadow-gray-600 p-6 rounded-lg shadow-sm text-white">
               <h3 className="text-xl font-semibold text-red-600">{post.title}</h3>
-              <p className="text-gray-500 text-sm">{post.location}</p>
-              <p className="mt-4 text-gray-700">
+              <p className=" text-sm">{post.location}</p>
+              <p className="mt-4">
                 {truncateText(post.story, 200)}{' '}
                 {post.story.length > 200 && (
                   <button

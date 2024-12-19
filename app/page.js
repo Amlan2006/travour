@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useState ,useEffect} from 'react';
 // import Map from './components/Map';
 // import ''
+import CarAnimation from './components/CarAnimation';
 const auth = getAuth(app)
 
 export default function Home() {
@@ -35,12 +36,12 @@ export default function Home() {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <main className="bg-red-50 text-red-800">
+      <main className="bg-black text-red-800 ">
         {/* Header */}
         
 
         {/* Hero Section */}
-        <section className="text-center py-16 bg-gradient-to-r from-red-500 to-red-700 text-white">
+        <section className="text-center py-16 bg-gradient-to-r from-red-950 to-black text-white">
           <div className="container mx-auto px-6">
             <h2 className="text-4xl font-bold mb-4">Find the Best Route with Travour</h2>
             <p className="text-lg mb-6">
@@ -56,19 +57,19 @@ export default function Home() {
         {/* Features Section */}
         <section id="features" className="py-16">
           <div className="container mx-auto px-6">
-            <h3 className="text-3xl font-bold text-center mb-10">Why Choose Travour?</h3>
+            <h3 className="text-3xl font-bold text-center mb-10 text-red-500">Why Choose Travour?</h3>
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 shadow-md rounded-lg">
+              <div className="transition-all hover:bg-white text-red-500 p-6 bg-transparent rounded-md shadow-sm shadow-gray-500">
                 <h4 className="text-xl font-bold mb-2">Community Driven</h4>
                 <p>
                   Routes suggested by people like you ensure the best and most reliable travel paths.
                 </p>
               </div>
-              <div className="bg-white p-6 shadow-md rounded-lg">
+              <div className="transition-all hover:bg-white text-red-500 p-6 rounded-md bg-transparent shadow-sm shadow-gray-500">
                 <h4 className="text-xl font-bold mb-2">Time-Saving</h4>
                 <p>Find the shortest routes and save precious time during your journeys.</p>
               </div>
-              <div className="bg-white p-6 shadow-md rounded-lg">
+              <div className="transition-all hover:bg-white text-red-500 p-6 rounded-md bg-transparent shadow-sm shadow-gray-500">
                 <h4 className="text-xl font-bold mb-2">Share and Read</h4>
                 <p>Share your travel stories and read others story.</p>
               </div>
@@ -77,7 +78,10 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-red-600 text-white py-16">
+        <div className="h-32 flex items-center justify-center bg-black">
+      <CarAnimation />
+    </div>
+        <section className="bg-black text-white py-16">
           <div className="container mx-auto text-center px-6">
             <h3 className="text-3xl font-bold mb-4">Ready to Start Your Journey?</h3>
             <p className="mb-6">

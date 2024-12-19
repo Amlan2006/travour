@@ -74,13 +74,13 @@ export default function PostStory() {
   };
 if(user == null){
   return(
-    <>
+    <div className='bg-gradient-to-r from-red-950 to-black'>
     <Login/>
-    </>
+    </div>
   )
 }
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-6">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-6 bg-gradient-to-r from-red-950 to-black">
       <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
           Share Your Travel Story

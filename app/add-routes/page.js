@@ -76,14 +76,14 @@ export default function AddRoutes() {
   };
 if(user == null){
   return(
-    <>
+    <div className='bg-gradient-to-r from-red-950 to-black'>
     <Login/>
-    </>
+    </div>
   )
 }
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-red-950 to-black">
+      <div className="max-w-4xl mx-auto bg-transparent p-6 sm:p-8 rounded-lg shadow-lg shadow-gray-500">
         <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
           Add a New Route
         </h2>
