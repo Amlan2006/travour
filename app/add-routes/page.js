@@ -59,10 +59,11 @@ export default function AddRoutes() {
     try {
       const routesRef = collection(firestore, 'routes');
       await addDoc(routesRef, {
-        from,
-        to,
+        from: from.toLowerCase(),
+        to: to.toLowerCase(),
         routeDescription,
         likes: 0,
+        username: user.email
       });
       alert('Route added successfully!');
       setFrom('');
@@ -124,12 +125,12 @@ if(user == null){
             value={routeDescription}
             onChange={(e) => setRouteDescription(e.target.value)}
             placeholder="Describe the route..."
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full p-3 text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
             rows="4"
           ></textarea>
         </div>
 
-        {/* Add Route Button */}
+        
         <div className="mt-6">
           <button
             onClick={handleAddRoute}
