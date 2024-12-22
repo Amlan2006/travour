@@ -1,12 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react';
-// import { firestore } from '../firebase';
 import { collection, addDoc, getDocs, getFirestore } from 'firebase/firestore';
 import { app } from '@/firebase';
-import { getAuth,onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Login from '../login/page';
-const firestore = getFirestore(app)
-const auth = getAuth(app)
+
+const firestore = getFirestore(app);
+const auth = getAuth(app);
+
 export default function AddRoutes() {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
@@ -14,21 +15,17 @@ export default function AddRoutes() {
   const [loading, setLoading] = useState(false);
   const [suggestionsFrom, setSuggestionsFrom] = useState([]);
   const [suggestionsTo, setSuggestionsTo] = useState([]);
-  const [user,setUser] = useState(null)
+  const [user, setUser] = useState(null);
 
-  // Fetch Suggestions
   useEffect(() => {
-    onAuthStateChanged(auth,(user)=>{
-          if(user){
-            // console.log("hello",user)
-            setUser(user)
-          }
-          
-          else{
-            // console.log("You are logged out")
-            setUser(null)
-          }
-        })
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+
     const fetchSuggestions = async () => {
       try {
         const routesRef = collection(firestore, 'routes');
@@ -63,7 +60,7 @@ export default function AddRoutes() {
         to: to.toLowerCase(),
         routeDescription,
         likes: 0,
-        username: user.email
+        username: user.email,
       });
       alert('Route added successfully!');
       setFrom('');
@@ -75,21 +72,22 @@ export default function AddRoutes() {
       setLoading(false);
     }
   };
-if(user == null){
-  return(
-    <div className='bg-gradient-to-r from-red-950 to-black'>
-    <Login/>
-    </div>
-  )
-}
+
+  if (user == null) {
+    return (
+      <div className="bg-gradient-to-r from-red-950 to-black">
+        <Login />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-red-950 to-black">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-red-950 via-black to-red-950 animate-gradient-x">
       <div className="max-w-4xl mx-auto bg-transparent p-6 sm:p-8 rounded-lg shadow-lg shadow-gray-500">
         <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
           Add a New Route
         </h2>
 
-        {/* Input Fields */}
         <div className="space-y-4">
           <div>
             <input
@@ -98,7 +96,7 @@ if(user == null){
               onChange={(e) => setFrom(e.target.value)}
               placeholder="From..."
               list="from-suggestions"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 transition-transform transform hover:scale-105"
             />
             <datalist id="from-suggestions">
               {suggestionsFrom.map((suggestion, index) => (
@@ -113,7 +111,7 @@ if(user == null){
               onChange={(e) => setTo(e.target.value)}
               placeholder="To..."
               list="to-suggestions"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 transition-transform transform hover:scale-105"
             />
             <datalist id="to-suggestions">
               {suggestionsTo.map((suggestion, index) => (
@@ -125,21 +123,27 @@ if(user == null){
             value={routeDescription}
             onChange={(e) => setRouteDescription(e.target.value)}
             placeholder="Describe the route..."
-            className="w-full p-3 text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full p-3 text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 transition-transform transform hover:scale-105"
             rows="4"
           ></textarea>
         </div>
-        
-        
+
         <div className="mt-6">
           <button
             onClick={handleAddRoute}
             disabled={loading}
-            className={`w-full bg-red-600 text-white px-4 py-3 rounded-md hover:bg-red-700 transition duration-200 ${
+            className={`w-full bg-red-600 text-white px-4 py-3 rounded-md hover:bg-red-700 transition-transform transform hover:scale-105 duration-300 ${
               loading ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
-            {loading ? 'Adding...' : 'Add Route'}
+            {loading ? (
+              <span className="flex justify-center items-center space-x-2">
+                <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
+                <span>Adding...</span>
+              </span>
+            ) : (
+              'Add Route'
+            )}
           </button>
         </div>
       </div>

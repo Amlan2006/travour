@@ -3,8 +3,10 @@ import { useState,useEffect} from 'react';
 // import { useRouter } from 'next/router';
 import { getAuth, createUserWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
 import { app } from '@/firebase';
+import { getFirestore } from 'firebase/firestore';
+import { addDoc,collection } from 'firebase/firestore';
 // import { useNavigate } from 'react-router-dom';
-
+const firestore = getFirestore(app)
 const auth = getAuth(app);
 export default function Signup() {
     const [user,setUser] = useState(null)
@@ -63,6 +65,12 @@ createUserWithEmailAndPassword(auth, formData.email, formData.password)
     
     // Redirect to home or another page on successful signup
     // router.push('/');
+    await addDoc(collection(firestore, 'users'), {
+      name: formData.name,
+      email: formData.email,
+      Insta: formData.instaHandle
+      // Add other user info here except password
+    });
   };
 if(user != null){
     return(

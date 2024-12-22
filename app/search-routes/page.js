@@ -1,10 +1,10 @@
 'use client'
 import { useEffect, useState} from 'react';
-// import { firestore } from '../firebase';
 import { collection, query, where, startAt, endAt, getDocs, updateDoc, arrayUnion, doc, orderBy, getFirestore } from 'firebase/firestore';
 import { app } from '@/firebase';
-// import { onAuthStateChanged } from 'firebase/auth';
-const firestore = getFirestore(app)
+
+const firestore = getFirestore(app);
+
 export default function SearchRoutes() {
   const [searchFrom, setSearchFrom] = useState('');
   const [searchTo, setSearchTo] = useState('');
@@ -14,6 +14,7 @@ export default function SearchRoutes() {
   const [suggestion, setSuggestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+
   // Fetch Suggestions for "From"
   const fetchFromSuggestions = async (input) => {
     if (!input.trim()) {
@@ -27,7 +28,7 @@ export default function SearchRoutes() {
         routesRef,
         orderBy('from'),
         startAt(input),
-        endAt(input + '\uf8ff')
+        endAt(input + '\\uf8ff')
       );
       const querySnapshot = await getDocs(q);
       setFromSuggestions(querySnapshot.docs.map((doc) => doc.data().from));
@@ -49,7 +50,7 @@ export default function SearchRoutes() {
         routesRef,
         orderBy('to'),
         startAt(input),
-        endAt(input + '\uf8ff')
+        endAt(input + '\\uf8ff')
       );
       const querySnapshot = await getDocs(q);
       setToSuggestions(querySnapshot.docs.map((doc) => doc.data().to));
@@ -120,8 +121,8 @@ export default function SearchRoutes() {
 
   return (
     <div className="min-h-screen py-20 px-6 bg-gradient-to-r from-red-950 to-black">
-      <div className="max-w-4xl mx-auto p-8 rounded-lg shadow-lg bg-transparent shadow-gray-500">
-        <h2 className="text-2xl font-bold text-center text-red-600 mb-6">
+      <div className="max-w-4xl mx-auto p-8 rounded-lg shadow-lg bg-black/70 shadow-gray-500 transition-transform transform hover:scale-105 duration-500">
+        <h2 className="text-3xl font-bold text-center text-red-600 mb-6 animate-pulse">
           Search for Routes
         </h2>
 
@@ -135,8 +136,8 @@ export default function SearchRoutes() {
                 setSearchFrom(e.target.value.toLowerCase());
                 fetchFromSuggestions(e.target.value.toLowerCase());
               }}
-              placeholder="From..."
-              className="flex-grow p-3 border shadow-sm shadow-gray-500 rounded-md"
+              placeholder="From...(atleast one word)"
+              className="flex-grow p-3 border shadow-sm shadow-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
             />
             {fromSuggestions.length > 0 && (
               <ul className="absolute bg-white border border-gray-300 rounded-md w-full mt-1 max-h-40 overflow-y-auto text-red-700 z-10">
@@ -163,8 +164,8 @@ export default function SearchRoutes() {
                 setSearchTo(e.target.value.toLowerCase());
                 fetchToSuggestions(e.target.value.toLowerCase());
               }}
-              placeholder="To..."
-              className="flex-grow p-3 border border-gray-300 rounded-md"
+              placeholder="To...(atleast one word)"
+              className="flex-grow p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
             />
             {toSuggestions.length > 0 && (
               <ul className="absolute bg-white border border-gray-300 rounded-md w-full mt-1 max-h-40 overflow-y-auto text-red-700">
@@ -185,14 +186,14 @@ export default function SearchRoutes() {
           </div>
           <button
             onClick={handleSearch}
-            className="bg-red-600 text-white px-4 py-3 rounded-md hover:bg-red-700"
+            className="bg-red-600 text-white px-4 py-3 rounded-md hover:bg-red-700 transition-transform transform hover:scale-105"
           >
             Search
           </button>
         </div>
 
         {/* Loading State */}
-        {loading && <p className="text-center text-gray-500">Searching...</p>}
+        {loading && <p className="text-center text-gray-500 animate-pulse">Searching...</p>}
 
         {/* Search Results */}
         {!loading && searchResults.length === 0 && (
@@ -200,7 +201,10 @@ export default function SearchRoutes() {
         )}
         <div className="space-y-6">
           {searchResults.map((route) => (
-            <div key={route.id} className="p-6 rounded-lg shadow-sm shadow-gray-500">
+            <div
+              key={route.id}
+              className="p-6 rounded-lg shadow-sm shadow-gray-500 bg-white/10 transition-transform transform hover:scale-105 duration-500"
+            >
               <h3 className="text-xl font-semibold text-red-600">
                 {route.from} → {route.to}
               </h3>
@@ -208,10 +212,10 @@ export default function SearchRoutes() {
 
               {/* Suggestions */}
               <div className="mt-4">
-                <h4 className="font-semibold text-gray-600">Suggestions:</h4>
+                <h4 className="font-semibold text-gray-300">Suggestions:</h4>
                 <ul className="list-disc pl-6">
                   {(route.suggestions || []).map((suggestion, index) => (
-                    <li key={index} className="text-gray-700">
+                    <li key={index} className="text-gray-300">
                       {suggestion}
                     </li>
                   ))}
@@ -219,17 +223,17 @@ export default function SearchRoutes() {
               </div>
 
               {/* Add Suggestion */}
-              <div className="mt-4 flex items-center space-x-4 ">
+              <div className="mt-4 flex flex-wrap gap-2 items-center space-x-4">
                 <input
                   type="text"
                   value={suggestion}
                   onChange={(e) => setSuggestion(e.target.value)}
                   placeholder="Add a suggestion..."
-                  className="flex-grow p-3 border border-gray-300 rounded-md"
+                  className="flex-grow p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
                 />
                 <button
                   onClick={() => handleAddSuggestion(route.id)}
-                  className="bg-red-600 text-white px-4 py-3 rounded-md hover:bg-red-700"
+                  className="bg-red-600 text-white px-4 py-3 rounded-md hover:bg-red-700 transition-transform transform hover:scale-105"
                 >
                   Add Suggestion
                 </button>
@@ -240,7 +244,7 @@ export default function SearchRoutes() {
 
         {/* Success Message */}
         {successMessage && (
-          <p className="text-green-500 text-center mt-6">{successMessage}</p>
+          <p className="text-green-500 text-center mt-6 animate-bounce">{successMessage}</p>
         )}
       </div>
     </div>
