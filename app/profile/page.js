@@ -80,7 +80,14 @@ export default function Profile() {
           </div>
           <div className="p-4 bg-gradient-to-r from-red-800 to-red-600 rounded-md shadow-md">
             <h3 className="text-lg font-semibold text-white">Instagram Handle:</h3>
-            <p className="text-gray-200">{'@' + profileData.Insta || 'Not Provided'}</p>
+            <p className="text-gray-200"><a
+      href={`https://www.instagram.com/${profileData.Insta}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-gray-200 underline hover:text-red-300 transition"
+    >
+      @{profileData.Insta || "Not Provided"}
+    </a></p>
           </div>
         </div>
       </div>

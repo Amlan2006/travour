@@ -82,6 +82,24 @@ const Navbar = () => {
                 Stories
               </Link>
             </li>
+            <li className="py-2 md:py-0">
+              <Link
+                href="/profile"
+                onClick={refreshPage}
+                className="block px-4 py-2 rounded-md hover:bg-red-600 hover:scale-105 transition transform"
+              >
+                Profile
+              </Link>
+            </li>
+            <li className="py-2 md:py-0">
+              <Link
+                href="/profile"
+                onClick={refreshPage}
+                className="block px-4 py-2 rounded-md hover:bg-red-600 hover:scale-105 transition transform"
+              >
+                Find Companion
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
